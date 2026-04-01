@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ANYVV MAKES - Sua loja de maquiagem online com os melhores produtos e tutoriais de make.">
+    <title>ANYVV MAKES 💄 Makeup Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="auth-overlay">
+        <!-- Main: Entrar com Google ou Criar/Logo -->
+        <div id="authMain" class="login-card">
+            <h1>💄 Unique Makeup</h1>
+            <p class="login-subtitle">seja você, seja única, seja glam</p>
+
+            <button class="google-btn" onclick="iniciarLoginGoogleReal()" style="font-size: 15px; padding: 14px;">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+                Entrar com Google
+            </button>
+
+            <div class="divider"><span>ou</span></div>
+
+            <button class="btn-main" onclick="mostrarAuthForm('authLogin')">Entrar com conta existente</button>
+            <p style="margin-top: 15px; font-size: 13px; color: var(--text-muted); cursor: pointer;" onclick="mostrarAuthForm('authCadastro')">Não tem conta? <strong style="color: var(--pink);">Cadastre-se</strong></p>
+        </div>
+
+        <!-- Login com Email/Senha -->
+        <div id="authLogin" class="login-card" style="display: none;">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 5px; color: var(--text);">Bem-vinda de volta! ✨</h2>
+            <p class="login-subtitle">Faça login com sua conta existente</p>
+
+            <input id="loginEmail" type="email" placeholder="E-mail">
+            <input id="loginSenha" type="password" placeholder="Senha">
+            
+            <div style="text-align: right; width: 100%; margin-top: -6px; margin-bottom: 15px;">
+                <span style="font-size: 12px; color: var(--pink); cursor: pointer; font-weight: 500;" onclick="mostrarAuthForm('authRecuperar')">Esqueceu a senha?</span>
+            </div>
+
+            <button class="btn-main" onclick="logar()">Entrar</button>
+            <button class="google-btn" style="margin-top: 12px; border: none; background: transparent; color: var(--text-muted); box-shadow: none;" onclick="mostrarAuthForm('authMain')">← Voltar</button>
+        </div>
+
+        <!-- Recuperar Senha -->
+        <div id="authRecuperar" class="login-card" style="display: none;">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 5px; color: var(--text);">Recuperar Senha 🔑</h2>
+            <p class="login-subtitle">Informe seu e-mail para receber o link</p>
+
+            <input id="recuperarEmail" type="email" placeholder="Seu e-mail cadastrado">
+
+            <button class="btn-main" onclick="enviarRecuperacao()">Enviar Link</button>
+            <button class="google-btn" style="margin-top: 12px; border: none; background: transparent; color: var(--text-muted); box-shadow: none;" onclick="mostrarAuthForm('authLogin')">← Voltar ao Login</button>
+        </div>
+        
+        <!-- Cadastro -->
+        <div id="authCadastro" class="login-card" style="display: none;">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 5px; color: var(--text);">Criar Conta 💖</h2>
+            <p class="login-subtitle">Junte-se a nós para novidades</p>
+
+            <input id="cadNome" type="text" placeholder="Nome Completo">
+            <input id="cadEmail" type="email" placeholder="E-mail">
+            <input id="cadSenha" type="password" placeholder="Senha">
+
+            <button class="btn-main" onclick="cadastrarConta()">Cadastrar</button>
+            <button class="google-btn" style="margin-top: 12px; border: none; background: transparent; color: var(--text-muted); box-shadow: none;" onclick="mostrarAuthForm('authMain')">← Voltar</button>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT (hidden until login) -->
+    <div id="mainContent" style="display:none;">
+
+        <!-- HEADER -->
+        <header>
+            <div class="search-box" style="flex:1; display: flex; align-items: center; gap: 10px;">
+                <span onclick="abrirSocial()" title="Comunidade" style="cursor: pointer; font-size: 22px; user-select: none; transition: transform 0.2s;">👋</span>
+                <span class="btn-more" onclick="abrirSobre()" title="Sobre a Empresa" style="cursor: pointer; font-size: 24px; color: var(--text); user-select: none;">⋮</span>
+                <input type="text" id="input-busca" placeholder="Buscar produtos ou tutoriais... 🔍"
+                    oninput="filtrarProdutos()">
+            </div>
+            <div class="logo">ANYVV MAKES</div>
+            <div class="nav-icons" style="flex:1;">
+                <span onclick="abrirPerfil()" title="Perfil">👤</span>
+                <span onclick="abrirFavoritos()" title="Favoritos">❤️ <small id="fav-count">0</small></span>
+                <span onclick="abrirCarrinho()" title="Carrinho">🛒 <small id="cart-count">0</small></span>
+            </div>
+        </header>
+
+        <!-- MAIN -->
+        <main>
+
+            <!-- TUTORIAIS -->
+            <section>
+                <h2>Tutoriais Interativos 🎬</h2>
+                <p class="section-subtitle">Aprenda os melhores truques de make com nossas videoaulas</p>
+                <div class="video-grid">
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/GdpqMUtTSAA')">
+                        <img src="https://img.youtube.com/vi/GdpqMUtTSAA/hqdefault.jpg" alt="Delineado Gatinho">
+                        <div class="play-overlay">▶️</div>
+                        <p>Delineado Gatinho</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Pele Glow Natural</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Contorno Fácil</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Make Madrinha</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Esfumado Chic</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Sobrancelhas</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Make 5 Minutos</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Cílios Postiços</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Lábios Volumosos</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Make Colorida</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <div class="play-overlay">▶️</div>
+                        <p>Remover Make</p>
+                    </div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Kit Iniciante</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make de Casamento</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Skincare Noturno</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Delineado Gráfico</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Pele Madura</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Truques Corretivo</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make de Carnaval</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Esfumado Colorido</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Preparação de Pele</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Fox Eyes Tutorial</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make Entrevista</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Delineado Invertido</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make Glow Praia</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Cut Crease Aberto</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Contorno Nariz</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Lábios Ombré</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make de Inverno</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Olho Preto Matte</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make para Foto</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Cílios Postiços</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Sobrancelha Soap</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Gótica Suave</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make K-Beauty</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Limpar Pincéis</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Mix 3 Produtos</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Smokey Eye Flash</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make Anos 90</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Truques de Blush</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Make Academia</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Demaquilar Rápido</p></div>
+                    <div class="video-item" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')"><div class="play-overlay">▶️</div><p>Pele Blindada</p></div>
+                </div>
+            </section>
+
+            <!-- PRODUTOS -->
+            <section>
+                <h2>Nossas Makes 🛍️</h2>
+                <p class="section-subtitle">Produtos selecionados para realçar sua beleza</p>
+                <div class="product-grid">
+
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/41XqZCiPkWL._AC_SX522_.jpg" alt="Batom">
+                        <h3>Batom Matte Velvet</h3>
+                        <p>R$ 19,90</p>
+                        <div class="actions">
+                            <button onclick="addCart('Batom Matte Velvet', 19.90)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51m2vAUfm6L._AC_SX522_.jpg" alt="Base">
+                        <h3>Base Matte HD</h3>
+                        <p>R$ 25,99</p>
+                        <div class="actions">
+                            <button onclick="addCart('Base Matte HD', 89.90)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://artecconsultants.com/wp-content/uploads/2020/10/5d21f2b14829f12e7546626e549b38d9.jpg" alt="Sombra">
+                        <h3>Paleta de Sombras</h3>
+                        <p>R$ 60,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Paleta de Sombras', 60.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51AMgANfAfL._AC_SY679_.jpg" alt="Rímel">
+                        <h3>Máscara de Cílios</h3>
+                        <p>R$ 34,50</p>
+                        <div class="actions">
+                            <button onclick="addCart('Máscara de Cílios', 34.50)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/41kwSthVASL._AC_SX522_.jpg" alt="Iluminador">
+                        <h3>Iluminador Glow</h3>
+                        <p>R$ 15,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Iluminador Glow', 15.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://picsum.photos/seed/blush/90/90" alt="Blush">
+                        <h3>Blush Rosé</h3>
+                        <p>R$ 42,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Blush Rosé', 42.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://picsum.photos/seed/pinceis/90/90" alt="Pincéis">
+                        <h3>Kit Pincéis</h3>
+                        <p>R$ 150,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Kit Pincéis', 150.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://picsum.photos/seed/corretivo/90/90" alt="Corretivo">
+                        <h3>Corretivo 24h</h3>
+                        <p>R$ 38,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Corretivo 24h', 38.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://picsum.photos/seed/gloss/90/90" alt="Gloss">
+                        <h3>Gloss Labial Shine</h3>
+                        <p>R$ 29,90</p>
+                        <div class="actions">
+                            <button onclick="addCart('Gloss Labial Shine', 29.90)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://picsum.photos/seed/delineador/90/90" alt="Delineador">
+                        <h3>Delineador Caneta</h3>
+                        <p>R$ 47,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Delineador Caneta', 47.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <img src="https://picsum.photos/seed/po/90/90" alt="Pó">
+                        <h3>Pó Translúcido</h3>
+                        <p>R$ 62,00</p>
+                        <div class="actions">
+                            <button onclick="addCart('Pó Translúcido', 62.00)">Comprar</button>
+                            <button class="btn-fav" onclick="addFav(this)">❤️</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card"><img src="https://picsum.photos/seed/p1/90/90" alt="Make"><h3>Primer Facial</h3><p>R$ 55,90</p><div class="actions"><button onclick="addCart('Primer Facial', 55.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p2/90/90" alt="Make"><h3>Esponja de Mak</h3><p>R$ 15,50</p><div class="actions"><button onclick="addCart('Esponja de Mak', 15.50)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p3/90/90" alt="Make"><h3>Batom Vermelho</h3><p>R$ 32,00</p><div class="actions"><button onclick="addCart('Batom Vermelho', 32.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p4/90/90" alt="Make"><h3>Kit Iluminador</h3><p>R$ 89,90</p><div class="actions"><button onclick="addCart('Kit Iluminador', 89.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p5/90/90" alt="Make"><h3>Gloss Incolor</h3><p>R$ 18,00</p><div class="actions"><button onclick="addCart('Gloss Incolor', 18.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p6/90/90" alt="Make"><h3>Demaquilante</h3><p>R$ 42,50</p><div class="actions"><button onclick="addCart('Demaquilante', 42.50)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p7/90/90" alt="Make"><h3>Água Micelar</h3><p>R$ 35,00</p><div class="actions"><button onclick="addCart('Água Micelar', 35.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p8/90/90" alt="Make"><h3>Sérum Facial</h3><p>R$ 75,00</p><div class="actions"><button onclick="addCart('Sérum Facial', 75.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p9/90/90" alt="Make"><h3>Hidratante Labial</h3><p>R$ 22,00</p><div class="actions"><button onclick="addCart('Hidratante Labial', 22.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p10/90/90" alt="Make"><h3>Lápis Preto</h3><p>R$ 14,90</p><div class="actions"><button onclick="addCart('Lápis Preto', 14.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p11/90/90" alt="Make"><h3>Lápis Boca Nude</h3><p>R$ 16,90</p><div class="actions"><button onclick="addCart('Lápis Boca Nude', 16.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p12/90/90" alt="Make"><h3>Bruma Fixadora</h3><p>R$ 48,00</p><div class="actions"><button onclick="addCart('Bruma Fixadora', 48.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p13/90/90" alt="Make"><h3>Sabonete Facial</h3><p>R$ 29,90</p><div class="actions"><button onclick="addCart('Sabonete Facial', 29.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p14/90/90" alt="Make"><h3>Curvex Pro</h3><p>R$ 25,00</p><div class="actions"><button onclick="addCart('Curvex Pro', 25.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p15/90/90" alt="Make"><h3>Cola pra Cílios</h3><p>R$ 30,00</p><div class="actions"><button onclick="addCart('Cola pra Cílios', 30.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p16/90/90" alt="Make"><h3>Cílios Naturais</h3><p>R$ 19,90</p><div class="actions"><button onclick="addCart('Cílios Naturais', 19.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p17/90/90" alt="Make"><h3>Cílios Magnéticos</h3><p>R$ 59,90</p><div class="actions"><button onclick="addCart('Cílios Magnéticos', 59.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p18/90/90" alt="Make"><h3>Duo de Contorno</h3><p>R$ 95,00</p><div class="actions"><button onclick="addCart('Duo de Contorno', 95.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p19/90/90" alt="Make"><h3>Blush Pêssego</h3><p>R$ 38,00</p><div class="actions"><button onclick="addCart('Blush Pêssego', 38.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p20/90/90" alt="Make"><h3>Máscara Incolor</h3><p>R$ 28,50</p><div class="actions"><button onclick="addCart('Máscara Incolor', 28.50)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p21/90/90" alt="Make"><h3>Sombra Prata</h3><p>R$ 45,00</p><div class="actions"><button onclick="addCart('Sombra Prata', 45.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p22/90/90" alt="Make"><h3>Sombra Dourada</h3><p>R$ 45,00</p><div class="actions"><button onclick="addCart('Sombra Dourada', 45.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p23/90/90" alt="Make"><h3>Glow Corporal</h3><p>R$ 65,00</p><div class="actions"><button onclick="addCart('Glow Corporal', 65.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p24/90/90" alt="Make"><h3>Delineador Gel</h3><p>R$ 52,00</p><div class="actions"><button onclick="addCart('Delineador Gel', 52.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p25/90/90" alt="Make"><h3>Pigmento Solto</h3><p>R$ 27,00</p><div class="actions"><button onclick="addCart('Pigmento Solto', 27.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p26/90/90" alt="Make"><h3>Pó Banana</h3><p>R$ 41,00</p><div class="actions"><button onclick="addCart('Pó Banana', 41.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p27/90/90" alt="Make"><h3>Base Cremosa</h3><p>R$ 82,00</p><div class="actions"><button onclick="addCart('Base Cremosa', 82.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p28/90/90" alt="Make"><h3>Corretivo Verde</h3><p>R$ 36,00</p><div class="actions"><button onclick="addCart('Corretivo Verde', 36.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p29/90/90" alt="Make"><h3>Lip Tint Morango</h3><p>R$ 24,90</p><div class="actions"><button onclick="addCart('Lip Tint Morango', 24.90)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+                    <div class="product-card"><img src="https://picsum.photos/seed/p30/90/90" alt="Make"><h3>Esfoliante Labial</h3><p>R$ 21,00</p><div class="actions"><button onclick="addCart('Esfoliante Labial', 21.00)">Comprar</button><button class="btn-fav" onclick="addFav(this)">❤️</button></div></div>
+
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- CARRINHO MODAL (Step 1) -->
+    <div id="carrinhoModal" class="modal">
+        <div class="modal-content" style="max-width: 420px;">
+            <span class="close" onclick="fecharCarrinho()">×</span>
+            <h3>Meu Carrinho 🛒</h3>
+
+            <div id="lista-carrinho" class="resumo-itens" style="margin-top: 15px;"></div>
+
+            <div class="total-linha" style="margin-top: 15px; margin-bottom: 20px;">
+                <span>Total:</span>
+                <span id="total-carrinho-valor">R$ 0,00</span>
+            </div>
+
+            <button class="btn-main" onclick="irParaCadastroCompra()">Confirmar Pedido ✨</button>
+        </div>
+    </div>
+
+    <!-- CHECKOUT MODAL (Step 2) -->
+    <div id="checkoutModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharCheckout()">×</span>
+            <h3>Cadastro de Compra 💄</h3>
+
+            <div class="total-linha" style="margin-bottom: 12px; border: none; padding-top: 0;">
+                <span style="font-weight: 500; font-size: 13px; color: var(--text-muted);">Resumo do valor:</span>
+                <span id="total-valor" style="font-size: 18px;">R$ 0,00</span>
+            </div>
+
+            <input type="text" id="nomeCliente" placeholder="Nome Completo">
+            <input type="text" id="cpfCliente" placeholder="CPF (000.000.000-00)">
+            <input type="email" id="emailCliente" placeholder="E-mail (para acompanhamento)">
+            <input type="text" id="endCliente" placeholder="Rua, Número e Bairro">
+
+            <label for="formaPagamento">Forma de Pagamento:</label>
+            <select id="formaPagamento" onchange="verificarPix()">
+                <option value="cartao">Cartão de Crédito</option>
+                <option value="pix">Pix (10% de desconto)</option>
+                <option value="boleto">Boleto Bancário</option>
+            </select>
+
+            <div id="areaComprovante" style="display:none;">
+                <label>Anexe seu comprovante:</label>
+                <input type="file" id="comprovanteFile" accept="image/*,.pdf">
+            </div>
+
+            <button class="btn-main" onclick="confirmarPedido()">Finalizar Compra ✔️</button>
+            <button class="google-btn" style="margin-top: 12px; border: none; background: transparent; color: var(--text-muted); box-shadow: none;" onclick="voltarParaCarrinho()">← Voltar ao carrinho</button>
+        </div>
+    </div>
+
+    <!-- VIDEO MODAL -->
+    <div id="videoModal" class="modal" onclick="fecharVideo(event)">
+        <div class="video-box" style="background: var(--bg-card); margin: auto; display: flex; flex-direction: column;">
+            <iframe id="videoIframe" width="100%" height="360" src="" frameborder="0" allowfullscreen style="display: block;"></iframe>
+            <div style="padding: 20px; text-align: left; border-top: 1px solid var(--border);">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <h3 id="videoInfoTitle" style="font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 8px;">Título do Vídeo</h3>
+                    <span class="close" onclick="fecharVideo(null, true)" style="position: static; padding-left: 10px;">×</span>
+                </div>
+                <p id="videoInfoDesc" style="font-size: 14px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5;"></p>
+                <strong style="color: var(--pink); font-size: 14px;">Produtos Utilizados:</strong>
+                <ul id="videoInfoProducts" style="list-style: none; margin-top: 8px; font-size: 13px; color: var(--text-muted); display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT MODAL -->
+    <div id="produtoModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close" onclick="fecharProduto()">×</span>
+            <div style="display: flex; gap: 20px; text-align: left; align-items: flex-start;">
+                <img id="modalProdutoImg" src="" alt="Produto" style="width: 140px; height: 140px; border-radius: 16px; object-fit: cover; border: 1px solid var(--border);">
+                <div style="flex: 1;">
+                    <h3 id="modalProdutoNome" style="margin-bottom: 8px; font-size: 20px;"></h3>
+                    <p id="modalProdutoPreco" style="font-size: 18px; color: var(--pink); font-weight: bold; margin-bottom: 12px;"></p>
+                    <p id="modalProdutoDesc" style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.6;"></p>
+                    <button class="btn-main" id="btnModalComprar" style="width: 100%;">Adicionar ao Carrinho 🛍️</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE MODAL -->
+    <div id="perfilModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="fecharPerfil()">×</span>
+            <h3>Seu Perfil 👤</h3>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 20px;">Gerencie seus dados e cadastro</p>
+            
+            <input type="text" id="perfilNome" placeholder="Nome Completo">
+            <input type="email" id="perfilEmail" placeholder="E-mail">
+            <input type="text" id="perfilTelefone" placeholder="Telefone (WhatsApp)">
+            <input type="text" id="perfilEndereco" placeholder="Endereço de Entrega">
+            <input type="password" id="perfilSenha" placeholder="Nova Senha">
+            
+            <button class="btn-main" onclick="salvarPerfil()">Salvar Dados ✨</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+                <button class="google-btn" style="flex:1; margin-bottom: 0; color: #ff4d4d; border-color: rgba(255,77,77,0.3);" onclick="sairDaConta()">Sair da Conta</button>
+                <button class="google-btn" style="flex:1; margin-bottom: 0;" onclick="trocarConta()">Trocar Conta</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAVORITOS MODAL -->
+    <div id="favoritosModal" class="modal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="close" onclick="fecharFavoritos()">×</span>
+            <h3>Ranking de Curtidas 🏆</h3>
+            <p class="section-subtitle">Os produtos mais amados pelas nossas clientes!</p>
+            
+            <div id="lista-favoritos-salvos" class="resumo-itens" style="max-height: 350px;">
+                <p style="text-align: center; color: var(--text-muted);">Nenhum produto curtido ainda.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- GOOGLE LOGIN MOCK -->
+    <div id="googleMockModal" class="modal">
+        <div class="modal-content" style="max-width: 320px; text-align: center;">
+            <span class="close" onclick="fecharGoogleMock()">×</span>
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" style="width: 40px; margin-bottom: 12px;">
+            <h3 style="margin-bottom: 20px;">Escolha uma conta</h3>
+            
+            <div class="google-account" onclick="loginGoogleMock('Ana Silva', 'ana.silva@gmail.com')" style="padding: 12px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; cursor: pointer; text-align: left; background: rgba(255,255,255,0.05); transition: background 0.3s;">
+                <strong style="display: block; font-size: 14px; color: var(--text);">Ana Silva</strong>
+                <span style="font-size: 12px; color: var(--text-muted);">ana.silva@gmail.com</span>
+            </div>
+            
+            <div class="google-account" onclick="loginGoogleMock('Juliana Costa', 'ju.costa99@gmail.com')" style="padding: 12px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; cursor: pointer; text-align: left; background: rgba(255,255,255,0.05); transition: background 0.3s;">
+                <strong style="display: block; font-size: 14px; color: var(--text);">Juliana Costa</strong>
+                <span style="font-size: 12px; color: var(--text-muted);">ju.costa99@gmail.com</span>
+            </div>
+            
+            <div class="google-account" onclick="loginGoogleMock('Camila Alves', 'ca.alves.make@gmail.com')" style="padding: 12px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 10px; cursor: pointer; text-align: left; background: rgba(255,255,255,0.05); transition: background 0.3s;">
+                <strong style="display: block; font-size: 14px; color: var(--text);">Camila Alves</strong>
+                <span style="font-size: 12px; color: var(--text-muted);">ca.alves.make@gmail.com</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ROTA DE ENTREGA MODAL -->
+    <div id="entregaModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 400px;">
+            <span class="close" onclick="fecharEntrega()">×</span>
+            <h3 style="font-size: 22px; color: var(--pink); margin-bottom: 15px;">Pedido Confirmado! 🎉</h3>
+            <p style="color: var(--text); margin-bottom: 10px; font-size: 14px;">Enviamos os detalhes para o e-mail: <br><strong id="entregaEmail" style="color: var(--pink-light);"></strong></p>
+            <div style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left; border: 1px solid var(--border);">
+                <p style="font-size: 13px;">📍 <strong>Destino:</strong> <span id="entregaEnd"></span></p>
+                <div id="rotaPassos" style="margin-top: 20px; position: relative; padding-left: 28px; border-left: 2px dashed var(--pink);">
+                    <!-- Passo 1: Preparando -->
+                    <div style="position: relative; padding-bottom: 20px;">
+                        <div id="dot1" class="rota-dot rota-ativo" style="position: absolute; left: -35px; top: 2px; width: 16px; height: 16px; border-radius: 50%; transition: background 0.5s;"></div>
+                        <p id="label1" class="rota-label" style="font-size: 13px; font-weight: 600; transition: color 0.5s;">📦 Preparando pedido</p>
+                        <p id="hora1" style="font-size: 11px; color: var(--text-muted); margin-top: 2px;"></p>
+                    </div>
+                    <!-- Passo 2: Em trânsito -->
+                    <div style="position: relative; padding-bottom: 20px;">
+                        <div id="dot2" class="rota-dot" style="position: absolute; left: -35px; top: 2px; width: 16px; height: 16px; border-radius: 50%; transition: background 0.5s;"></div>
+                        <p id="label2" class="rota-label" style="font-size: 13px; font-weight: 600; transition: color 0.5s;">🚚 Em trânsito</p>
+                        <p id="hora2" style="font-size: 11px; color: var(--text-muted); margin-top: 2px;"></p>
+                    </div>
+                    <!-- Passo 3: Entregue -->
+                    <div style="position: relative;">
+                        <div id="dot3" class="rota-dot" style="position: absolute; left: -35px; top: 2px; width: 16px; height: 16px; border-radius: 50%; transition: background 0.5s;"></div>
+                        <p id="label3" class="rota-label" style="font-size: 13px; font-weight: 600; transition: color 0.5s;">✅ Entregue</p>
+                        <p id="hora3" style="font-size: 11px; color: var(--text-muted); margin-top: 2px;"></p>
+                    </div>
+                </div>
+            </div>
+            <p id="rotaTimer" style="font-size: 12px; color: var(--text-muted); margin-bottom: 14px;"></p>
+            <button class="btn-main" onclick="fecharEntrega()">Acompanhar depois</button>
+        </div>
+    </div>
+
+    <!-- SOBRE A EMPRESA MODAL -->
+    <div id="sobreModal" class="modal">
+        <div class="modal-content" style="text-align: center; max-width: 350px;">
+            <span class="close" onclick="fecharSobre()">×</span>
+            <h3 style="font-size: 24px; color: var(--pink); margin-bottom: 5px;">ANYVV MAKES 💄</h3>
+            <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">A sua loja de maquiagens número 1!</p>
+            
+            <div style="background: rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; text-align: left; display: flex; flex-direction: column; gap: 12px; border: 1px solid var(--border);">
+                <p style="font-size: 14px; margin: 0;">📞 <strong>Telefone:</strong> <br><span style="color: var(--pink-light);">(11) 99999-9999</span></p>
+                <p style="font-size: 14px; margin: 0;">✉️ <strong>E-mail:</strong> <br><span style="color: var(--pink-light);">contato@anyvvmakes.com.br</span></p>
+                <p style="font-size: 14px; margin: 0;">📸 <strong>Instagram:</strong> <br><span style="color: var(--pink-light);">@anyvvmakes</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SOCIAL / COMUNIDADE MODAL (Instagram-like) -->
+    <div id="socialModal" class="modal">
+        <div class="social-container">
+            <!-- Header do Social -->
+            <div class="social-header">
+                <span class="close" onclick="fecharSocial()" style="position:static; font-size: 28px;">×</span>
+                <h3 style="flex:1; text-align:center; font-size: 18px; font-weight: 700;">💄 Comunidade Make</h3>
+                <span onclick="abrirDMs()" style="cursor:pointer; font-size: 22px;" title="Mensagens">✉️</span>
+            </div>
+
+            <!-- Stories -->
+            <div class="social-stories">
+                <div class="story-item" onclick="verStory(0)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Mari Maria"></div>
+                    <span>Mari Maria</span>
+                </div>
+                <div class="story-item" onclick="verStory(1)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Boca Rosa"></div>
+                    <span>Boca Rosa</span>
+                </div>
+                <div class="story-item" onclick="verStory(2)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Bruna T."></div>
+                    <span>Bruna T.</span>
+                </div>
+                <div class="story-item" onclick="verStory(3)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Camila C."></div>
+                    <span>Camila C.</span>
+                </div>
+                <div class="story-item" onclick="verStory(4)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Franciny"></div>
+                    <span>Franciny</span>
+                </div>
+                <div class="story-item" onclick="verStory(5)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/50.jpg" alt="Alice S."></div>
+                    <span>Alice S.</span>
+                </div>
+                <div class="story-item" onclick="verStory(6)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/12.jpg" alt="Letícia"></div>
+                    <span>Letícia</span>
+                </div>
+                <div class="story-item" onclick="verStory(7)">
+                    <div class="story-ring"><img src="https://randomuser.me/api/portraits/women/90.jpg" alt="Gabi"></div>
+                    <span>Gabi</span>
+                </div>
+            </div>
+
+            <!-- Feed de Posts -->
+            <div class="social-feed" id="socialFeed">
+                <!-- Post 1 -->
+                <div class="social-post">
+                    <div class="post-header">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Mari Maria" class="post-avatar">
+                        <div>
+                            <strong>Mari Maria</strong>
+                            <span>@marimaria • 2h</span>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=600&h=400&fit=crop" alt="Post" class="post-image">
+                    <div class="post-actions">
+                        <span class="post-btn" onclick="curtirPost(this)">🤍 <small>324</small></span>
+                        <span class="post-btn" onclick="comentarPost(this)">💬 <small>48</small></span>
+                        <span class="post-btn" onclick="compartilharPost()">🔁 <small>Repost</small></span>
+                        <span class="post-btn" onclick="enviarPost()">📩 <small>Enviar</small></span>
+                    </div>
+                    <p class="post-caption"><strong>Mari Maria</strong> Testando a nova paleta de outono 🍂 Olha esse esfumado! Quem quer tutorial? 💜</p>
+                    <p class="post-time">Ver todos os 48 comentários</p>
+                </div>
+
+                <!-- Post 2 -->
+                <div class="social-post">
+                    <div class="post-header">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Boca Rosa" class="post-avatar">
+                        <div>
+                            <strong>Boca Rosa</strong>
+                            <span>@bocarosa • 5h</span>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=600&h=400&fit=crop" alt="Post" class="post-image">
+                    <div class="post-actions">
+                        <span class="post-btn" onclick="curtirPost(this)">🤍 <small>1.2k</small></span>
+                        <span class="post-btn" onclick="comentarPost(this)">💬 <small>203</small></span>
+                        <span class="post-btn" onclick="compartilharPost()">🔁 <small>Repost</small></span>
+                        <span class="post-btn" onclick="enviarPost()">📩 <small>Enviar</small></span>
+                    </div>
+                    <p class="post-caption"><strong>Boca Rosa</strong> Minha rotina de skincare antes da make! Pele preparada = make perfeita 🧖‍♀️✨</p>
+                    <p class="post-time">Ver todos os 203 comentários</p>
+                </div>
+
+                <!-- Post 3 -->
+                <div class="social-post">
+                    <div class="post-header">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Bruna Tavares" class="post-avatar">
+                        <div>
+                            <strong>Bruna Tavares</strong>
+                            <span>@brunatavares • 8h</span>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1583241800698-e8ab01830a07?w=600&h=400&fit=crop" alt="Post" class="post-image">
+                    <div class="post-actions">
+                        <span class="post-btn" onclick="curtirPost(this)">🤍 <small>891</small></span>
+                        <span class="post-btn" onclick="comentarPost(this)">💬 <small>127</small></span>
+                        <span class="post-btn" onclick="compartilharPost()">🔁 <small>Repost</small></span>
+                        <span class="post-btn" onclick="enviarPost()">📩 <small>Enviar</small></span>
+                    </div>
+                    <p class="post-caption"><strong>Bruna Tavares</strong> Nova coleção delineadores que não borram! Testem e me contem 🖊️💕</p>
+                    <p class="post-time">Ver todos os 127 comentários</p>
+                </div>
+
+                <!-- Post 4 -->
+                <div class="social-post">
+                    <div class="post-header">
+                        <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Camila Coelho" class="post-avatar">
+                        <div>
+                            <strong>Camila Coelho</strong>
+                            <span>@camilacoelho • 12h</span>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1512496015851-a90fb38ba796?w=600&h=400&fit=crop" alt="Post" class="post-image">
+                    <div class="post-actions">
+                        <span class="post-btn" onclick="curtirPost(this)">🤍 <small>2.4k</small></span>
+                        <span class="post-btn" onclick="comentarPost(this)">💬 <small>310</small></span>
+                        <span class="post-btn" onclick="compartilharPost()">🔁 <small>Repost</small></span>
+                        <span class="post-btn" onclick="enviarPost()">📩 <small>Enviar</small></span>
+                    </div>
+                    <p class="post-caption"><strong>Camila Coelho</strong> Look completo para evento! Base HD + contorno + iluminador ✨ Marque suas amigas!</p>
+                    <p class="post-time">Ver todos os 310 comentários</p>
+                </div>
+
+                <!-- Post 5 -->
+                <div class="social-post">
+                    <div class="post-header">
+                        <img src="https://randomuser.me/api/portraits/women/21.jpg" alt="Franciny" class="post-avatar">
+                        <div>
+                            <strong>Franciny Ehlke</strong>
+                            <span>@francinyehlke • 1d</span>
+                        </div>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=600&h=400&fit=crop" alt="Post" class="post-image">
+                    <div class="post-actions">
+                        <span class="post-btn" onclick="curtirPost(this)">🤍 <small>5.1k</small></span>
+                        <span class="post-btn" onclick="comentarPost(this)">💬 <small>489</small></span>
+                        <span class="post-btn" onclick="compartilharPost()">🔁 <small>Repost</small></span>
+                        <span class="post-btn" onclick="enviarPost()">📩 <small>Enviar</small></span>
+                    </div>
+                    <p class="post-caption"><strong>Franciny Ehlke</strong> Antes x Depois dessa transformação! 😱💖 O poder da maquiagem!</p>
+                    <p class="post-time">Ver todos os 489 comentários</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STORY VIEWER MODAL -->
+    <div id="storyModal" class="modal" style="z-index: 8000;" onclick="fecharStory(event)">
+        <div class="story-viewer">
+            <div class="story-progress">
+                <div class="story-progress-bar" id="storyProgressBar"></div>
+            </div>
+            <div class="story-viewer-header">
+                <img id="storyAvatar" src="" alt="" class="post-avatar">
+                <strong id="storyNome" style="color: #fff;"></strong>
+                <span class="close" onclick="fecharStory(null, true)" style="position:static; color:#fff; font-size:28px; margin-left:auto;">×</span>
+            </div>
+            <img id="storyImagem" src="" alt="Story" class="story-viewer-img">
+            <p id="storyTexto" style="color:#fff; text-align:center; padding: 16px; font-size: 14px;"></p>
+            <div style="display:flex; gap:10px; padding: 10px 16px;">
+                <input type="text" id="storyResposta" placeholder="Enviar mensagem..." style="flex:1; padding:10px 14px; border-radius:20px; border:1px solid rgba(255,255,255,0.3); background:rgba(255,255,255,0.1); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; outline:none;">
+                <button onclick="enviarRespostaStory()" style="background:linear-gradient(135deg,#e91e8c,#bd6ed1); border:none; color:#fff; padding:10px 18px; border-radius:20px; cursor:pointer; font-family:'Poppins',sans-serif; font-weight:600; font-size:13px;">Enviar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DM / MENSAGENS MODAL -->
+    <div id="dmModal" class="modal" style="z-index: 8000;">
+        <div class="social-container" style="max-width: 420px;">
+            <div class="social-header">
+                <span class="close" onclick="fecharDMs()" style="position:static; font-size: 28px;">×</span>
+                <h3 style="flex:1; text-align:center; font-size: 18px;">✉️ Mensagens</h3>
+                <span style="width:28px;"></span>
+            </div>
+            <div id="dmLista" class="dm-lista"></div>
+        </div>
+    </div>
+
+    <!-- DM CONVERSA MODAL -->
+    <div id="dmConversaModal" class="modal" style="z-index: 8500;">
+        <div class="social-container" style="max-width: 420px;">
+            <div class="social-header">
+                <span class="close" onclick="fecharConversa()" style="position:static; font-size: 28px;">←</span>
+                <img id="dmConversaAvatar" src="" alt="" style="width:32px; height:32px; border-radius:50%; object-fit:cover;">
+                <h3 id="dmConversaNome" style="flex:1; font-size: 16px;"></h3>
+            </div>
+            <div id="dmMensagens" class="dm-mensagens"></div>
+            <div class="dm-input-area">
+                <input type="text" id="dmInputMsg" placeholder="Escreva uma mensagem..." onkeydown="if(event.key==='Enter')enviarDM()">
+                <button onclick="enviarDM()">📩</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
