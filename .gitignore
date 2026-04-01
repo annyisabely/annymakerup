@@ -1,0 +1,21 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Workspace / Environment
+.env
+.env.test
+.env.production
+.DS_Store
+
+# Backend / Database
+database.sqlite
+database.sqlite-journal
+database.sqlite-wal
+database.sqlite-shm
+
+# Antigravity AI Kit (Opcional manter ignorado ou não)
+# .agent/
